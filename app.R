@@ -14,11 +14,12 @@ library(highcharter)
 # DF_2021 <- DF_2021[-c((nrow(DF_2021)-2):nrow(DF_2021)),]
 # # Small correction to bind data  ---------------
 # colnames(DF_2020)[29] <- colnames(DF_2021)[29]
-# DF <- rbind(DF_2020,DF_2021) 
+# DF <- rbind(DF_2020,DF_2021)
 # # Sort by date
 # DF <- DF %>% arrange(`Year Period`)
-#  # Delete space from column names
+# # Delete space from column names
 # names(DF) <-  gsub(" ", "_", names(DF))
+DF <- readRDS("df.rds")
 
 # UI  ---------------
 ui <- fluidPage(
@@ -117,7 +118,8 @@ ui <- fluidPage(
                                                     dropdownAlignRight = T)
                           ))
                  ),
-                 plotlyOutput("boxplot"),
+                 plotlyOutput("boxplot")  %>% 
+                   withSpinner(color="#3C8DBC",type=4, proxy.height = "127px",size = 0.9),
                  br(),
                  h2("Analyze the numerical fields: distrubtion"),
                  br(),
@@ -143,7 +145,8 @@ ui <- fluidPage(
                    tagList(
                      lapply(1:30,function(x){
                        column(4,
-                              highchartOutput(paste0("piechart_",x), width = "380px"))
+                              highchartOutput(paste0("piechart_",x), width = "380px") %>% 
+                                withSpinner(color="#3C8DBC",type=4, proxy.height = "127px",size = 0.9))
                      })
                    )
                  )
